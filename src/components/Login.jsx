@@ -5,7 +5,7 @@ import { AuthContext } from '../providers/AuthProviders';
 
 const Login = () => {
 
-    const {signIn} = useContext(AuthContext);
+    const {signIn, user, googleSignIn} = useContext(AuthContext);
 
     const handleLogin = event => {
         event.preventDefault();
@@ -18,12 +18,21 @@ const Login = () => {
         .then(result => {
             const loggedUser = result.user;
             console.log(loggedUser)
+            form.reset()
         })
         .catch(error=>{
             console.log(error.message)
         })
     }
 
+    const handleGoogleSignIn = () => {
+
+      googleSignIn().then(result => {
+        const loggedUser = result.user;
+        console.log(loggedUser)
+      }).catch(error=>console.error(error.message))
+    }
+    console.log(user)
 
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -56,6 +65,21 @@ const Login = () => {
       <label className="label mb-4 ml-8">
       <Link to="/register" className="label-text-alt link link-hover">New in Auth Master? Please Register</Link>
       </label>
+      <div className="label mb-4 ml-8">
+      <button
+          className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+          onClick={handleGoogleSignIn}
+        >
+          <div className="flex items-center justify-center">
+            <img
+              className="mr-2"
+              src="https://img.icons8.com/color/48/000000/google-logo.png"
+              alt="Google logo"
+            />
+            <span>Sign in with Google</span>
+          </div>
+        </button>
+      </div>
     </div>
   </div>
 </div>
